@@ -54,10 +54,44 @@ const renderBoard = () => {
           }
         });
 
+        // pieceElement.addEventListener("dragend", () => {
+        //   draggedPiece = null;
+        //   sourceSquare = null;
+        // });
+
         pieceElement.addEventListener("dragend", () => {
-          draggedPiece = null;
-          sourceSquare = null;
-        });
+  draggedPiece = null;
+  sourceSquare = null;
+});
+
+pieceElement.addEventListener("click", () => {
+  if (playerRole === square.color) {
+    draggedPiece = pieceElement;
+
+    sourceSquare = {
+      row: actualRow,
+      col: actualCol,
+    };
+  }
+});
+
+squareElement.addEventListener("dragover", function (e) {
+  e.preventDefault();
+});
+
+squareElement.addEventListener("click", function () {
+  if (draggedPiece && sourceSquare) {
+    const targetSquare = {
+      row: parseInt(squareElement.dataset.row),
+      col: parseInt(squareElement.dataset.col),
+    };
+
+    handleMove(sourceSquare, targetSquare);
+
+    draggedPiece = null;
+    sourceSquare = null;
+  }
+});
 
         squareElement.appendChild(pieceElement);
       }
